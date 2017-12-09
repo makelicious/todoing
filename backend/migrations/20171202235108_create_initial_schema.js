@@ -21,7 +21,7 @@ exports.up = function (knex) {
   const ideas_tags = knex.schema.createTable('ideas_tags', (t) => {
     t.integer('idea_id').references('ideas.id');
     t.string('tag_name').references('tags.name');
-  })
+  });
 
   return ideas
     .then(() => tags)

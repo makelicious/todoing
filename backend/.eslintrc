@@ -1,25 +1,14 @@
 {
   "parserOptions": {
     "ecmaVersion": 8,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
+    "sourceType": "module"
   },
   "env": {
     "amd": true,
     "es6": true,
-    "browser": true,
-    "node": true,
-    "jest": true
+    "node": true
   },
-  "parser": "babel-eslint",
-  "plugins": [
-    "react"
-  ],
-  "extends": [
-    "plugin:react/recommended"
-  ],
+  "extends": "eslint:recommended",
   "rules": {
     "no-multiple-empty-lines": "error",
     "no-process-env": "off",

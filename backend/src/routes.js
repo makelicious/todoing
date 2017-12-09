@@ -1,8 +1,3 @@
-const knex = require('knex');
-const knexConfig = require('../knexfile');
-const connection = knex(knexConfig);
-const { raw } = connection;
-
 const { postIdea } = require('./handlers');
 
 const routes = [

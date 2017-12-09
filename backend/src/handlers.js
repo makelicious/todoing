@@ -5,7 +5,7 @@ const { raw } = connection;
 
 
 function postIdea(request, h) {
-  const { text, tags, done, type } = request.payload;
+  const { text, done, type } = request.payload;
   const { what, when, why, how } = type;
   const postgresParams = {
     text,
@@ -18,7 +18,7 @@ function postIdea(request, h) {
 
   raw(`INSERT INTO ideas (created_at, updated_at, idea, done, what, "when", why, how)
       VALUES (now(), NULL, :text, :done, :what, :when, :why, :how)`, postgresParams)
-    .catch(err => h.response('Server error').code(503));
+    .catch(() => h.response('Server error').code(503));
 
   return h.response('coolio').code(201);
 }

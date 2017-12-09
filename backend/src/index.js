@@ -1,3 +1,5 @@
+/*eslint no-console: "off"*/
+
 const Hapi = require('hapi');
 const routes = require('./routes');
 const config = require('../config');

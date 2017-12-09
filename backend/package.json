@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node src/index.js",
-    "ebin": "nodemon src/index.js"
+    "ebin": "nodemon src/index.js",
+    "lint": "eslint **/*.js"
   },
   "dependencies": {
     "axios": "^0.17.1",

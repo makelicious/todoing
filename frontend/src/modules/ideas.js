@@ -19,7 +19,7 @@ export default function reducer(state = initialState, action = {}) {
     case SUBMIT_IDEA:
       return {
         ideas: [...state.ideas, action.idea]
-      }
+      };
     default: return state;
   }
 }
@@ -37,8 +37,8 @@ export function submitIdea(idea) {
       idea,
     });
 
-    return axios(axiosConfig).catch(err => { console.log(err) });
-  }
+    return axios(axiosConfig).catch(err => { console.log(err); });
+  };
 }
 
 // function saveIdea(idea) {

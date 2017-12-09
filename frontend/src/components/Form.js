@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import propTypes, { func } from 'prop-types';
 import { submitIdea } from '../modules/ideas';
 
 const initialState = {
@@ -40,7 +41,6 @@ class Form extends Component {
 
 
   render() {
-    console.log(this.props);
     return (
       <form onSubmit={this.submitText}>
         <label>
@@ -73,5 +73,9 @@ const mapDispatchToProps = dispatch => ({
 });
 
 const mapStateToProps = state => state;
+
+Form.propTypes = {
+  submitIdea: func,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
