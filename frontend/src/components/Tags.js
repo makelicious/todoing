@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const TagListWrapper = styled.div`
   width: 20%;
   margin: 0 1rem;
+  margin-top: 20rem;
   position: fixed;
 `;
 

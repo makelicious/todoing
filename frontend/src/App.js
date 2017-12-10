@@ -21,13 +21,23 @@ const BodyWrapper = styled.div`
   display: flex;
 `;
 
+const Foo = styled.div`
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+  margin-left: 20%;
+`;
+
 const App = () => (
   <Background>
     <Header />
-    <Form />
     <BodyWrapper>
       <Tags />
-      <Ideas />
+      <Foo>
+        <Form />
+        <Ideas />
+      </Foo>
     </BodyWrapper>
   </Background>
 );
