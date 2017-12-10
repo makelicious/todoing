@@ -20,6 +20,7 @@ const Pencil = () => (
 );
 
 const Wrapper = styled.div`
+  position: fixed;
   font-size: 16px;
   display: flex;
   justify-content: space-between;
