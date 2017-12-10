@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import '../styles/font-awesome/css/font-awesome.css';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -12,48 +12,14 @@ const iconStyle = {
   color: 'inherit',
 };
 
-const What = () => (
-  <FontAwesome
-    ariaLabel='why'
-    name='info'
-    style={iconStyle}
-  />
-);
-
-const Why = () => (
-  <FontAwesome
-    name='question'
-    style={iconStyle}
-  />
-);
-
-const When = () => (
-  <FontAwesome
-    name='clock-o'
-    style={iconStyle}
-  />
-);
-
-const How = () => (
-  <FontAwesome
-    name='wrench'
-    style={iconStyle}
-  />
-);
-
-const Done = () => (
-  <FontAwesome
-    name='check'
-    style={iconStyle}
-  />
-);
-
-const Todo = () => (
-  <FontAwesome
-    name='exclamation'
-    style={iconStyle}
-  />
-);
+const iconStyles = {
+  todo: 'exclamation',
+  done: 'check',
+  when: 'clock-o',
+  what: 'info',
+  why: 'question',
+  how: 'wrench',
+};
 
 const FormWrapper = styled.div`
   display: flex;
@@ -166,78 +132,30 @@ class Form extends Component {
 
   render() {
     const { type } = this.state;
-    const {
-      todo,
-      done,
-      when,
-      what,
-      why,
-      how,
-    } = type;
     return (
       <FormWrapper>
         <IdeaForm
           onSubmit={this.submitText}
           onKeyDown={this.submitIfEnter}>
           <TypeWrapper>
-            <CheckBox
-              id='todo'
-              checked={todo}
-              onChange={this.addLabel} />
-            <TypeLabel
-              title='todo'
-              htmlFor='todo'
-            >
-              <Todo />
-            </TypeLabel>
-            <CheckBox
-              id='done'
-              checked={done}
-              onClick={this.addLabel}
-            />
-            <TypeLabel
-              title='done'
-              htmlFor='done'
-            >
-              <Done />
-            </TypeLabel>
-            <CheckBox
-              id='when'
-              checked={when}
-              onClick={this.addLabel} />
-            <TypeLabel
-              title='when'
-              htmlFor='when'
-            >
-              <When />
-            </TypeLabel>
-            <CheckBox
-              id='what'
-              checked={what}
-              onClick={this.addLabel} />
-            <TypeLabel
-              title='what'
-              htmlFor='what'>
-              <What />
-            </TypeLabel>
-            <CheckBox
-              id='why'
-              checked={why}
-              onClick={this.addLabel} />
-            <TypeLabel
-              title='why'
-              htmlFor='why'>
-              <Why />
-            </TypeLabel>
-            <CheckBox
-              id='how'
-              checked={how}
-              onClick={this.addLabel} />
-            <TypeLabel
-              title='how'
-              htmlFor='how'>
-              <How />
-            </TypeLabel>
+            {
+              Object.entries(iconStyles).map(([key, value]) =>
+                <Fragment key={key}>
+                  <CheckBox
+                    id={key}
+                    checked={type[key]}
+                    onChange={this.addLabel}
+                    key={key} />
+                  <TypeLabel
+                    title={key}
+                    htmlFor={key}>
+                    <FontAwesome
+                      name={value}
+                      style={iconStyle}
+                    />
+                  </TypeLabel>
+                </Fragment>
+              )}
           </TypeWrapper>
           <TextWrapper>
             <Textarea

@@ -3,52 +3,14 @@ import React from 'react';
 import styled from 'styled-components';
 import FontAwesome from 'react-fontawesome';
 
-const What = () => (
-  <FontAwesome
-    name='info'
-    size='2x'
-  />
-);
-
-const Why = () => (
-  <FontAwesome
-    name='question'
-    size='2x'
-  />
-);
-
-const When = () => (
-  <FontAwesome
-    name='clock-o'
-    size='2x'
-    style={{
-      color: '#f58b47',
-      borderBottom: '3px solid #f58b47',
-      paddingBottom: '6px'
-    }}
-  />
-);
-
-const How = () => (
-  <FontAwesome
-    name='wrench'
-    size='2x'
-  />
-);
-
-const Done = () => (
-  <FontAwesome
-    name='check'
-    size='2x'
-  />
-);
-
-const Todo = () => (
-  <FontAwesome
-    name='exclamation'
-    size='2x'
-  />
-);
+const iconStyles = {
+  todo: 'exclamation',
+  done: 'check',
+  when: 'clock-o',
+  what: 'info',
+  why: 'question',
+  how: 'wrench',
+};
 
 const Pencil = () => (
   <FontAwesome
@@ -120,12 +82,16 @@ const Header = () => (
     </WrapperTab>
     <WrapperTab>
       <Navigation>
-        <Todo />
-        <Done />
-        <When />
-        <What />
-        <Why />
-        <How />
+        {
+          Object.entries(iconStyles).map(([key, value]) =>
+            <FontAwesome
+              key={key}
+              ariaLabel={key}
+              name={value}
+              size='2x'
+            />
+          )
+        }
       </Navigation>
     </WrapperTab>
   </Wrapper>
