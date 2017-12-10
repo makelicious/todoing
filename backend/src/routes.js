@@ -1,4 +1,4 @@
-const { postIdea } = require('./handlers');
+const { postIdea, getIdeas } = require('./handlers');
 
 const routes = [
   {
@@ -8,6 +8,14 @@ const routes = [
       cors: true,
     },
     handler: postIdea,
+  },
+  {
+    method: 'GET',
+    path: '/ideas',
+    options: {
+      cors: true,
+    },
+    handler: getIdeas,
   },
 ];
 

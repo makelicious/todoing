@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../styles/font-awesome/css/font-awesome.css';
 import { connect } from 'react-redux';
-import propTypes, { func } from 'prop-types';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import FontAwesome from 'react-fontawesome';
 import { submitIdea } from '../modules/ideas';
@@ -193,7 +193,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => state;
 
 Form.propTypes = {
-  submitIdea: func,
+  submitIdea: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

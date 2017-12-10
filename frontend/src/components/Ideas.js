@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ReactMarkdown from 'react-markdown';
@@ -39,33 +39,40 @@ const IdeaBubble = styled.div`
   }
 `;
 
-
 const IdeaListItem = styled.li`
   
 `;
 
-const Ideas = props => {
-  const text = props.ideas.map((idea, index) =>
-    <IdeaListItem key={index}>
-      <IdeaBubble>
-        <ReactMarkdown
-          source={idea.text}
-        />
-      </IdeaBubble>
-    </IdeaListItem>
-  );
+class Ideas extends Component {
+  componentDidMount = () => {
+    console.log('buajakad');
+    this.props.getIdeas();
+  }
 
-  return (
-    <IdeaListWrapper>
-      <IdeaList>
-        {text}
-      </IdeaList>
-    </IdeaListWrapper>
-  );
+  render = () => {
+    const text = this.props.ideas.map((idea, index) =>
+      <IdeaListItem key={index}>
+        <IdeaBubble>
+          <ReactMarkdown
+            source={idea.text}
+          />
+        </IdeaBubble>
+      </IdeaListItem>
+    );
+
+    return (
+      <IdeaListWrapper>
+        <IdeaList>
+          {text}
+        </IdeaList>
+      </IdeaListWrapper>
+    );
+  }
 };
 
 Ideas.propTypes = {
   ideas: PropTypes.array,
+  getIdeas: PropTypes.func,
 };
 
 export default Ideas;

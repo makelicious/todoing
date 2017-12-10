@@ -25,7 +25,6 @@ const TagListItem = styled.li`
   &:hover {
     background-color: #107896;
     color: #fff;
-    /* background-color: #fff; */
   }
 
 

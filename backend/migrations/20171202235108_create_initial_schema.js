@@ -4,7 +4,7 @@ exports.up = function (knex) {
     t.increments('id').unsigned().primary();
     t.dateTime('created_at').notNull();
     t.dateTime('updated_at').nullable();
-    t.string('idea');
+    t.string('text');
     t.boolean('done');
     t.boolean('when');
     t.boolean('what');

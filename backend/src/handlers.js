@@ -16,14 +16,22 @@ function postIdea(request, h) {
     how,
   };
 
-  raw(`INSERT INTO ideas (created_at, updated_at, idea, done, what, "when", why, how)
+  raw(`INSERT INTO ideas (created_at, updated_at, text, done, what, "when", why, how)
       VALUES (now(), NULL, :text, :done, :what, :when, :why, :how)`, postgresParams)
     .catch(() => h.response('Server error').code(503));
 
   return h.response('coolio').code(201);
 }
 
+async function getIdeas(request, h) {
+  const ideas = await raw(`SELECT * FROM ideas`);
+  console.log('tulispa jotain');
+
+  return h.response(ideas.rows);
+}
+
 
 module.exports = {
   postIdea,
+  getIdeas,
 };
