@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import ReactMarkdown from 'react-markdown';
 
 const IdeaListWrapper = styled.div`
   display: flex;
@@ -46,7 +47,11 @@ const IdeaListItem = styled.li`
 const Ideas = props => {
   const text = props.ideas.map((idea, index) =>
     <IdeaListItem key={index}>
-      <IdeaBubble>{idea.text}</IdeaBubble>
+      <IdeaBubble>
+        <ReactMarkdown
+          source={idea.text}
+        />
+      </IdeaBubble>
     </IdeaListItem>
   );
 

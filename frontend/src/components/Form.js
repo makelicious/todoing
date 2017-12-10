@@ -175,7 +175,8 @@ class Form extends Component {
               rows={4}
               style={textareaStyles}
               onChange={this.changeText}
-              value={this.state.current.text} />
+              value={this.state.current.text}
+            />
           </TextWrapper>
         </IdeaForm>
       </FormWrapper>
