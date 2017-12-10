@@ -5,8 +5,8 @@ const { raw } = connection;
 
 
 function postIdea(request, h) {
-  const { text, done, type } = request.payload;
-  const { what, when, why, how } = type;
+  const { text, type } = request.payload;
+  const { what, when, why, how, done } = type;
   const postgresParams = {
     text,
     done,

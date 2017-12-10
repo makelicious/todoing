@@ -32,6 +32,7 @@
     "semi": [
       2,
       "always"
-    ]
+    ],
+    "no-trailing-spaces": "error"
   }
 }
