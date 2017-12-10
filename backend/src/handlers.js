@@ -25,7 +25,6 @@ function postIdea(request, h) {
 
 async function getIdeas(request, h) {
   const ideas = await raw(`SELECT * FROM ideas`);
-  console.log('tulispa jotain');
 
   return h.response(ideas.rows);
 }

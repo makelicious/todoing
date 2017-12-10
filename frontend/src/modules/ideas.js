@@ -1,8 +1,6 @@
 import axios from 'axios';
 import config from '../config';
 
-console.log(config);
-
 const SUBMIT_IDEA = 'SUBMIT_IDEA';
 const GET_IDEAS_IN_PROGRESS = 'GET_IDEAS_IN_PROGRESS';
 const GET_IDEAS_SUCCESS = 'GET_IDEAS_SUCCESS';
@@ -67,20 +65,16 @@ export function submitIdea(idea) {
 }
 
 export function getIdeas() {
-  console.log(1);
   return (dispatch, getState) => {
-    console.log(2);
     dispatch({ type: GET_IDEAS_IN_PROGRESS });
     return axios.get(`${config.BACKEND_URL}/ideas`)
       .then((res) => {
-        console.log('mter');
         dispatch({
           type: GET_IDEAS_SUCCESS,
           ideas: res.data,
         });
       })
       .catch((err) => {
-        console.log('mroo');
         dispatch({
           type: GET_IDEAS_FAILURE,
         });

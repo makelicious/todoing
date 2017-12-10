@@ -7,45 +7,51 @@ import FontAwesome from 'react-fontawesome';
 import { submitIdea } from '../modules/ideas';
 import Textarea from "react-textarea-autosize";
 
+const iconStyle = {
+  fontSize: '1.5rem',
+  color: 'inherit',
+};
+
 const What = () => (
   <FontAwesome
+    ariaLabel='why'
     name='info'
-    style={{ fontSize: '1.5rem' }}
+    style={iconStyle}
   />
 );
 
 const Why = () => (
   <FontAwesome
     name='question'
-    style={{ fontSize: '1.5rem' }}
+    style={iconStyle}
   />
 );
 
 const When = () => (
   <FontAwesome
     name='clock-o'
-    style={{ fontSize: '1.5rem' }}
+    style={iconStyle}
   />
 );
 
 const How = () => (
   <FontAwesome
     name='wrench'
-    style={{ fontSize: '1.5rem' }}
+    style={iconStyle}
   />
 );
 
 const Done = () => (
   <FontAwesome
     name='check'
-    style={{ fontSize: '1.5rem' }}
+    style={iconStyle}
   />
 );
 
 const Todo = () => (
   <FontAwesome
     name='exclamation'
-    style={{ fontSize: '1.5rem' }}
+    style={iconStyle}
   />
 );
 
@@ -80,7 +86,7 @@ const TypeWrapper = styled.div`
 
 const TypeLabel = styled.label`
   display: flex;
-  flex-direction: column;
+  padding: 1em;
 `;
 
 const TextWrapper = styled.div`
@@ -100,19 +106,26 @@ const textareaStyles = {
   width: '90%',
 };
 
+const CheckBox = styled.input.attrs({
+  type: 'checkbox',
+}) `
+  display: none;
+  &:checked + ${TypeLabel} {
+    color: #f58b47;
+  }
+`;
+
 const initialState = {
-  current: {
-    type: {
-      todo: false,
-      done: false,
-      when: false,
-      what: false,
-      why: false,
-      how: false,
-    },
-    text: '',
-    tags: [],
+  type: {
+    todo: false,
+    done: false,
+    when: false,
+    what: false,
+    why: false,
+    how: false,
   },
+  text: '',
+  tags: [],
 };
 
 class Form extends Component {
@@ -121,10 +134,7 @@ class Form extends Component {
   changeText = event => {
     this.setState({
       ...this.state,
-      current: {
-        ...this.state.current,
-        text: event.target.value
-      }
+      text: event.target.value,
     });
   };
 
@@ -137,36 +147,95 @@ class Form extends Component {
   submitText = event => {
     event.preventDefault();
 
-    this.props.submitIdea(this.state.current);
+    this.props.submitIdea(this.state);
     this.setState({
       ...initialState,
     });
   };
 
+  addLabel = event => {
+    this.setState({
+      ...this.state,
+      type: {
+        ...this.state.type,
+        [event.target.id]: event.target.checked,
+      },
+    });
+  }
+
 
   render() {
+    const { type } = this.state;
+    const {
+      todo,
+      done,
+      when,
+      what,
+      why,
+      how,
+    } = type;
     return (
       <FormWrapper>
         <IdeaForm
           onSubmit={this.submitText}
           onKeyDown={this.submitIfEnter}>
           <TypeWrapper>
-            <TypeLabel title='Todo'>
+            <CheckBox
+              id='todo'
+              checked={todo}
+              onChange={this.addLabel} />
+            <TypeLabel
+              title='todo'
+              htmlFor='todo'
+            >
               <Todo />
             </TypeLabel>
-            <TypeLabel title='Done'>
+            <CheckBox
+              id='done'
+              checked={done}
+              onClick={this.addLabel}
+            />
+            <TypeLabel
+              title='done'
+              htmlFor='done'
+            >
               <Done />
             </TypeLabel>
-            <TypeLabel title='When'>
+            <CheckBox
+              id='when'
+              checked={when}
+              onClick={this.addLabel} />
+            <TypeLabel
+              title='when'
+              htmlFor='when'
+            >
               <When />
             </TypeLabel>
-            <TypeLabel title='What'>
+            <CheckBox
+              id='what'
+              checked={what}
+              onClick={this.addLabel} />
+            <TypeLabel
+              title='what'
+              htmlFor='what'>
               <What />
             </TypeLabel>
-            <TypeLabel title='Why'>
+            <CheckBox
+              id='why'
+              checked={why}
+              onClick={this.addLabel} />
+            <TypeLabel
+              title='why'
+              htmlFor='why'>
               <Why />
             </TypeLabel>
-            <TypeLabel title='How'>
+            <CheckBox
+              id='how'
+              checked={how}
+              onClick={this.addLabel} />
+            <TypeLabel
+              title='how'
+              htmlFor='how'>
               <How />
             </TypeLabel>
           </TypeWrapper>
@@ -175,11 +244,11 @@ class Form extends Component {
               rows={4}
               style={textareaStyles}
               onChange={this.changeText}
-              value={this.state.current.text}
+              value={this.state.text}
             />
           </TextWrapper>
         </IdeaForm>
-      </FormWrapper>
+      </FormWrapper >
     );
   }
 }
