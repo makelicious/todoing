@@ -8,8 +8,14 @@ const GET_IDEAS_FAILURE = 'GET_IDEAS_FAILURE';
 
 const initialState = {
   ideas: [{
-    ready: false,
-    type: {},
+    type: {
+      todo: false,
+      done: false,
+      when: false,
+      what: false,
+      why: false,
+      how: false
+    },
     text: 'perkele',
     tags: ''
   }],

@@ -16,7 +16,7 @@ const TagList = styled.ul`
 `;
 
 const TagListItem = styled.li`
-  background-color: rgba(230, 230, 234, 0.95);
+  background-color: rgba(255, 255, 255, 0.9);
   width: 100%;
   border-radius: 3px;
   margin-bottom: 3px;
@@ -26,6 +26,7 @@ const TagListItem = styled.li`
   color: #107896;
   &:hover {
     background-color: #107896;
+    opacity: 0.9;
     color: #fff;
   }
 `;

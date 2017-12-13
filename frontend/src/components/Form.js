@@ -6,19 +6,11 @@ import styled from "styled-components";
 import FontAwesome from "react-fontawesome";
 import { submitIdea } from "../modules/ideas";
 import Textarea from "react-textarea-autosize";
+import { iconStyles } from "../utils";
 
 const iconStyle = {
   fontSize: "1.5rem",
   color: "inherit"
-};
-
-const iconStyles = {
-  todo: "exclamation",
-  done: "check",
-  when: "clock-o",
-  what: "info",
-  why: "question",
-  how: "wrench"
 };
 
 const FormWrapper = styled.div`
@@ -51,6 +43,8 @@ const TypeWrapper = styled.div`
 const TypeLabel = styled.label`
   display: flex;
   padding: 1em;
+  color: #7c7c7c;
+  opacity: 0.9;
 `;
 
 const TextWrapper = styled.div`
@@ -72,10 +66,10 @@ const textareaStyles = {
 
 const CheckBox = styled.input.attrs({
   type: "checkbox"
-})`
+}) `
   display: none;
   &:checked + ${TypeLabel} {
-    color: #f58b47;
+    color: #ff6f00;
   }
 `;
 
@@ -116,7 +110,7 @@ class Form extends Component {
       ...initialState
     });
   };
-
+  // #568EA3 icon inactive/active #68C3D4
   addLabel = event => {
     this.setState({
       ...this.state,

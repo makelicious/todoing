@@ -26,9 +26,24 @@ function postIdea(request, h) {
 async function getIdeas(request, h) {
   const ideas = await raw(`SELECT * FROM ideas`);
 
-  return h.response(ideas.rows);
+  return h.response(ideas.rows.map(formatIdea));
 }
 
+
+function formatIdea(idea) {
+  return {
+    id: idea.id,
+    created_at: idea.created_at,
+    text: idea.text,
+    type: {
+      done: idea.done,
+      when: idea.when,
+      what: idea.what,
+      why: idea.why,
+      how: idea.how,
+    },
+  };
+}
 
 module.exports = {
   postIdea,

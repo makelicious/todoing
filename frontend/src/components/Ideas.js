@@ -1,7 +1,16 @@
+import '../styles/font-awesome/css/font-awesome.css';
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import styled from "styled-components";
+import FontAwesome from 'react-fontawesome';
 import ReactMarkdown from "react-markdown";
+import { iconStyles } from '../utils';
+
+const iconStyle = {
+  color: '#ff6f00',
+  marginRight: '5px',
+  float: 'right',
+};
 
 const IdeaWrapper = styled.div`
   display: flex;
@@ -51,6 +60,12 @@ class Ideas extends Component {
   render = () => {
     const text = this.props.ideas.map((idea, index) => (
       <IdeaBubble key={index}>
+        {
+          Object.entries(idea.type).map(([key, value]) => (
+            value && <FontAwesome
+              name={iconStyles[key]}
+              style={iconStyle} />))
+        }
         <ReactMarkdown source={idea.text} />
       </IdeaBubble>
     ));
