@@ -1,31 +1,29 @@
-import React, { Component, Fragment } from 'react';
-import '../styles/font-awesome/css/font-awesome.css';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import FontAwesome from 'react-fontawesome';
-import { submitIdea } from '../modules/ideas';
+import React, { Component, Fragment } from "react";
+import "../styles/font-awesome/css/font-awesome.css";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import FontAwesome from "react-fontawesome";
+import { submitIdea } from "../modules/ideas";
 import Textarea from "react-textarea-autosize";
 
 const iconStyle = {
-  fontSize: '1.5rem',
-  color: 'inherit',
+  fontSize: "1.5rem",
+  color: "inherit"
 };
 
 const iconStyles = {
-  todo: 'exclamation',
-  done: 'check',
-  when: 'clock-o',
-  what: 'info',
-  why: 'question',
-  how: 'wrench',
+  todo: "exclamation",
+  done: "check",
+  when: "clock-o",
+  what: "info",
+  why: "question",
+  how: "wrench"
 };
 
 const FormWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin: 2rem 3rem;
-  margin-right: 1rem;
+  width: 80%;
+  margin: 2rem 1rem 2rem 3rem;
 `;
 
 const IdeaForm = styled.form`
@@ -35,7 +33,7 @@ const IdeaForm = styled.form`
   align-self: center;
   align-items: center;
   margin: 2rem 0;
-  width: 80%;
+  width: 100%
   border: solid 1px #D2D2D5;
   border-radius: 3px;
 `;
@@ -47,7 +45,7 @@ const TypeWrapper = styled.div`
   margin-bottom: 1rem;
   margin-top: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: solid 1px #D2D2D5;
+  border-bottom: solid 1px #d2d2d5;
 `;
 
 const TypeLabel = styled.label`
@@ -63,18 +61,18 @@ const TextWrapper = styled.div`
 `;
 
 const textareaStyles = {
-  fontSize: '24px',
-  margin: '1rem 5%',
+  fontSize: "24px",
+  margin: "1rem 5%",
   border: 0,
-  resize: 'none',
-  background: 'transparent',
+  resize: "none",
+  background: "transparent",
   outline: 0,
-  width: '90%',
+  width: "90%"
 };
 
 const CheckBox = styled.input.attrs({
-  type: 'checkbox',
-}) `
+  type: "checkbox"
+})`
   display: none;
   &:checked + ${TypeLabel} {
     color: #f58b47;
@@ -88,10 +86,10 @@ const initialState = {
     when: false,
     what: false,
     why: false,
-    how: false,
+    how: false
   },
-  text: '',
-  tags: [],
+  text: "",
+  tags: []
 };
 
 class Form extends Component {
@@ -100,7 +98,7 @@ class Form extends Component {
   changeText = event => {
     this.setState({
       ...this.state,
-      text: event.target.value,
+      text: event.target.value
     });
   };
 
@@ -108,14 +106,14 @@ class Form extends Component {
     if (!event.shiftKey && event.keyCode === 13) {
       this.submitText(event);
     }
-  }
+  };
 
   submitText = event => {
     event.preventDefault();
 
     this.props.submitIdea(this.state);
     this.setState({
-      ...initialState,
+      ...initialState
     });
   };
 
@@ -124,55 +122,37 @@ class Form extends Component {
       ...this.state,
       type: {
         ...this.state.type,
-        [event.target.id]: event.target.checked,
-      },
+        [event.target.id]: event.target.checked
+      }
     });
-  }
-
+  };
 
   render() {
     const { type } = this.state;
     return (
       <FormWrapper>
-        <IdeaForm
-          onSubmit={this.submitText}
-          onKeyDown={this.submitIfEnter}>
+        <IdeaForm onSubmit={this.submitText} onKeyDown={this.submitIfEnter}>
           <TypeWrapper>
-            {
-              Object.entries(iconStyles).map(([key, value]) =>
-                <Fragment key={key}>
-                  <CheckBox
-                    id={key}
-                    checked={type[key]}
-                    onChange={this.addLabel}
-                    key={key} />
-                  <TypeLabel
-                    title={key}
-                    htmlFor={key}>
-                    <FontAwesome
-                      name={value}
-                      style={iconStyle}
-                    />
-                  </TypeLabel>
-                </Fragment>
-              )}
+            {Object.entries(iconStyles).map(([key, value]) => (
+              <Fragment key={key}>
+                <CheckBox id={key} checked={type[key]} onChange={this.addLabel} key={key} />
+                <TypeLabel title={key} htmlFor={key}>
+                  <FontAwesome name={value} style={iconStyle} />
+                </TypeLabel>
+              </Fragment>
+            ))}
           </TypeWrapper>
           <TextWrapper>
-            <Textarea
-              rows={4}
-              style={textareaStyles}
-              onChange={this.changeText}
-              value={this.state.text}
-            />
+            <Textarea rows={4} style={textareaStyles} onChange={this.changeText} value={this.state.text} />
           </TextWrapper>
         </IdeaForm>
-      </FormWrapper >
+      </FormWrapper>
     );
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  submitIdea: (idea) => {
+  submitIdea: idea => {
     dispatch(submitIdea(idea));
   }
 });
@@ -180,7 +160,7 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => state;
 
 Form.propTypes = {
-  submitIdea: PropTypes.func,
+  submitIdea: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

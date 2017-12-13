@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const TagListWrapper = styled.div`
   width: 20%;
@@ -22,16 +22,13 @@ const TagListItem = styled.li`
   margin-bottom: 3px;
   padding: 0.5rem 0.25rem;
   word-break: break-all;
-  transition: all .25s linear;
-  color: #107896;;
+  transition: all 0.25s linear;
+  color: #107896;
   &:hover {
     background-color: #107896;
     color: #fff;
   }
-
-
 `;
-
 
 const Tags = () => (
   <TagListWrapper>
@@ -51,6 +48,5 @@ const Tags = () => (
     </TagList>
   </TagListWrapper>
 );
-
 
 export default Tags;
