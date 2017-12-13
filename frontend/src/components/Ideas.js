@@ -18,7 +18,7 @@ const IdeaWrapper = styled.div`
   flex-direction: column-reverse;
   align-content: center;
   justify-content: center;
-  max-width: 80%;
+  max-width: 65%;
   margin-left: 3rem;
   margin-right: 1rem;
   order: 2;
@@ -31,7 +31,7 @@ const IdeaBubble = styled.div`
   background: rgba(255, 255, 255, 0.95);
   padding: 1rem;
   margin: 1rem 0;
-  max-width: 100%;
+  max-width: 80%;
   min-width: 150px;
   border-radius: 3px;
   transition: transform 0.3s, opacity 0.6s;

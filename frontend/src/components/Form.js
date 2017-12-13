@@ -14,7 +14,7 @@ const iconStyle = {
 };
 
 const FormWrapper = styled.div`
-  width: 80%;
+  width: 65%;
   margin: 2rem 1rem 2rem 3rem;
 `;
 
@@ -25,7 +25,7 @@ const IdeaForm = styled.form`
   align-self: center;
   align-items: center;
   margin: 2rem 0;
-  width: 100%
+  width: 80%
   border: solid 1px #D2D2D5;
   border-radius: 3px;
 `;
@@ -110,7 +110,7 @@ class Form extends Component {
       ...initialState
     });
   };
-  // #568EA3 icon inactive/active #68C3D4
+
   addLabel = event => {
     this.setState({
       ...this.state,

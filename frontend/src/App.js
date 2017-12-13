@@ -11,7 +11,7 @@ const Background = styled.div`
   background-attachment: fixed;
   position: absolute;
   min-height: 100%;
-  min-width: 100%;
+  overflow-x: hidden;
   width: 100%;
   margin: 0;
   top: 0;
