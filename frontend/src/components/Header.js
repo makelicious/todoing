@@ -1,7 +1,10 @@
 import '../styles/font-awesome/css/font-awesome.css';
 import React from 'react';
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import styled from 'styled-components';
 import FontAwesome from 'react-fontawesome';
+import { filterBy } from '../modules/ideas';
 import { iconStyles } from '../utils';
 
 const Wrapper = styled.div`
@@ -49,9 +52,10 @@ const Search = styled.input`
 
 const Navigation = styled.nav`
   width: 100%;
+
 `;
 
-const Header = () => (
+const Header = props => (
   <Wrapper>
     <IconWrapper>
       <Navigation>
@@ -61,8 +65,9 @@ const Header = () => (
               key={key}
               ariaLabel={key}
               name={value}
+              onClick={() => props.filterBy(key)}
               size='2x'
-              style={{ color: '#68C3D4', padding: '1rem' }}
+              style={{ color: props.filters[key] ? '#68C3D4' : '#568EA3', padding: '1rem' }}
             />
           )
         }
@@ -75,4 +80,21 @@ const Header = () => (
   </Wrapper>
 );
 
-export default Header;
+const mapDispatchToProps = dispatch => ({
+  filterBy: type => {
+    dispatch(filterBy(type));
+  }
+});
+
+const mapStateToProps = state => {
+  return {
+    filters: state.filters,
+  };
+};
+
+Header.propTypes = {
+  filterBy: PropTypes.func,
+  filters: PropTypes.object,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
