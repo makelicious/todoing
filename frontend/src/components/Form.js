@@ -14,8 +14,9 @@ const iconStyle = {
 };
 
 const FormWrapper = styled.div`
-  width: 65%;
+  width: 60%;
   margin: 2rem 1rem 2rem 3rem;
+  overflow-x: hidden;
 `;
 
 const IdeaForm = styled.form`
@@ -25,7 +26,6 @@ const IdeaForm = styled.form`
   align-self: center;
   align-items: center;
   margin: 2rem 0;
-  width: 80%
   border: solid 1px #D2D2D5;
   border-radius: 3px;
 `;
@@ -104,8 +104,13 @@ class Form extends Component {
 
   submitText = event => {
     event.preventDefault();
+    const tags = this.parseTags(this.state.text);
 
-    this.props.submitIdea(this.state);
+    this.props.submitIdea({
+      ...this.state,
+      tags,
+    });
+
     this.setState({
       ...initialState
     });
@@ -120,6 +125,17 @@ class Form extends Component {
       }
     });
   };
+
+  parseTags = text => {
+    const regex = /(#\S*)/g;
+    const rawTags = text.match(regex);
+
+    return rawTags.map(tag => {
+      const tagWithoutHash = tag.slice(1, tag.length);
+
+      return tagWithoutHash.toLowerCase();
+    });
+  }
 
   render() {
     const { type } = this.state;

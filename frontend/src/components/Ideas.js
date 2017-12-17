@@ -38,6 +38,7 @@ const IdeaBubble = styled.div`
   box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
   overflow-wrap: break-word;
   word-wrap: break-word;
+  white-space: pre-wrap;
   animation: bubble-appear 0.4s;
 
   @keyframes bubble-appear {
@@ -62,7 +63,8 @@ class Ideas extends Component {
       <IdeaBubble key={index}>
         {
           Object.entries(idea.type).map(([key, value]) => (
-            value && <FontAwesome
+            value &&
+            <FontAwesome
               name={iconStyles[key]}
               style={iconStyle} />))
         }
@@ -76,7 +78,8 @@ class Ideas extends Component {
 
 Ideas.propTypes = {
   ideas: PropTypes.array,
-  getIdeas: PropTypes.func
+  getIdeas: PropTypes.func,
+  filters: PropTypes.object,
 };
 
 export default Ideas;

@@ -5,6 +5,7 @@ import { getIdeas } from '../modules/ideas';
 const mapStateToProps = state => {
   return {
     ideas: state.ideas,
+    filters: state.filters,
   };
 };
 
