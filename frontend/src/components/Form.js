@@ -127,14 +127,16 @@ class Form extends Component {
   };
 
   parseTags = text => {
-    const regex = /(#\S*)/g;
-    const rawTags = text.match(regex);
+    const tagRegex = /(#\S*)/g;
+    const rawTags = text.match(tagRegex);
 
-    return rawTags.map(tag => {
-      const tagWithoutHash = tag.slice(1, tag.length);
+    return rawTags
+      ? rawTags.map(tag => {
+        const tagWithoutHash = tag.slice(1, tag.length);
 
-      return tagWithoutHash.toLowerCase();
-    });
+        return tagWithoutHash.toLowerCase();
+      })
+      : [];
   }
 
   render() {
