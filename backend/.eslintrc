@@ -4,11 +4,14 @@
     "sourceType": "module"
   },
   "env": {
-    "amd": true,
     "es6": true,
     "node": true
   },
   "extends": "eslint:recommended",
+  "plugins": [
+    "transform-es2015-destructuring",
+    "transform-object-rest-spread"
+  ],
   "rules": {
     "no-multiple-empty-lines": "error",
     "no-process-env": "off",
