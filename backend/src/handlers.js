@@ -4,20 +4,27 @@ const connection = knex(knexConfig);
 const { raw } = connection;
 
 
-function postIdea(request, h) {
+async function postIdea(request, h) {
   const { text, type } = request.payload;
 
-  raw(`INSERT INTO ideas (created_at, updated_at, text, done, what, "when", why, how)
-      VALUES (now(), NULL, :text, :done, :what, :when, :why, :how)`, { text, type })
-    .catch(() => h.response('Server error').code(503));
+  try {
+    const insertedIdea = await raw(`INSERT INTO ideas (created_at, updated_at, text, done, what, "when", why, how)
+        VALUES (now(), NULL, :text, :done, :what, :when, :why, :how) RETURNING created_at, id`, { ...type, text })
 
-  return h.response('coolio').code(201);
+    return h.response(insertedIdea.rows).code(201);
+  } catch (err) {
+    return h.response('Error happened while inserting').code(503);
+  }
 }
 
 async function getIdeas(request, h) {
-  const ideas = await raw(`SELECT * FROM ideas`);
-
-  return h.response(ideas.rows.map(formatIdea));
+  try {
+    const ideas = await raw(`SELECT * FROM ideas`);
+    return h.response(ideas.rows.map(formatIdea));
+  }
+  catch (err) {
+    return h.response('Cant get ideas').code(500);
+  }
 }
 
 
