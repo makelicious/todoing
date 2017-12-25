@@ -2,14 +2,16 @@ const knex = require('knex');
 const knexConfig = require('../knexfile');
 const connection = knex(knexConfig);
 const { raw } = connection;
+const uuidv4 = require('uuid/v4');
 
 
 async function postIdea(request, h) {
   const { text, type } = request.payload;
+  const ideaId = uuidv4();
 
   try {
-    const insertedIdea = await raw(`INSERT INTO ideas (created_at, updated_at, text, done, what, "when", why, how)
-        VALUES (now(), NULL, :text, :done, :what, :when, :why, :how) RETURNING created_at, id`, { ...type, text })
+    const insertedIdea = await raw(`INSERT INTO ideas (id, created_at, updated_at, text, done, what, "when", why, how)
+        VALUES (:ideaId, now(), NULL, :text, :done, :what, :when, :why, :how) RETURNING created_at, id`, { ...type, text, ideaId })
 
     return h.response(insertedIdea.rows[0]).code(201);
   } catch (err) {

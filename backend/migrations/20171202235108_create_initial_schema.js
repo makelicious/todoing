@@ -1,7 +1,7 @@
 
 exports.up = function (knex) {
   const ideas = knex.schema.createTable('ideas', (t) => {
-    t.increments('id').unsigned().primary();
+    t.string('id').primary();
     t.dateTime('created_at').notNull();
     t.dateTime('updated_at').nullable();
     t.string('text');
@@ -13,14 +13,15 @@ exports.up = function (knex) {
   });
 
   const tags = knex.schema.createTable('tags', (t) => {
-    t.increments('id').unsigned().primary();
+    t.string('id').primary();
     t.string('name').unique();
-    t.integer('idea_id').references('ideas.id');
   });
 
   const ideas_tags = knex.schema.createTable('ideas_tags', (t) => {
-    t.integer('idea_id').references('ideas.id');
-    t.string('tag_name').references('tags.name');
+    t.string('idea_id').references('ideas.id').unique();
+    t.string('tag_name').references('tags.name').unique();
+    t.primary(['idea_id', 'tag_name']);
+
   });
 
   return ideas
