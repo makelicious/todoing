@@ -2,8 +2,7 @@
 exports.up = function (knex) {
   const ideas = knex.schema.createTable('ideas', (t) => {
     t.string('id').primary();
-    t.dateTime('created_at').notNull();
-    t.dateTime('updated_at').nullable();
+    t.timestamps();
     t.string('text');
     t.boolean('done');
     t.boolean('when');
@@ -15,11 +14,12 @@ exports.up = function (knex) {
   const tags = knex.schema.createTable('tags', (t) => {
     t.string('id').primary();
     t.string('name').unique();
+    t.timestamps();
   });
 
   const ideas_tags = knex.schema.createTable('ideas_tags', (t) => {
-    t.string('idea_id').references('ideas.id').unique();
-    t.string('tag_name').references('tags.name').unique();
+    t.string('idea_id').references('ideas.id')
+    t.string('tag_name').references('tags.name')
     t.primary(['idea_id', 'tag_name']);
 
   });
