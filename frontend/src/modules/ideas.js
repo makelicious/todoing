@@ -88,12 +88,16 @@ export function submitIdea(idea) {
   };
 
   return dispatch => {
-    dispatch({
-      type: SUBMIT_IDEA,
-      idea,
-    });
-
-    return axios(axiosConfig).catch(err => { console.log(err); });
+    return axios(axiosConfig)
+      .then((res) =>
+        dispatch({
+          type: SUBMIT_IDEA,
+          idea: {
+            ...idea,
+            id: res.id,
+            createdAt: res.created_at,
+          },
+        })).catch(err => { console.log(err); });
   };
 }
 
@@ -101,13 +105,13 @@ export function getIdeas() {
   return (dispatch, getState) => {
     dispatch({ type: GET_IDEAS_IN_PROGRESS });
     return axios.get(`${config.BACKEND_URL}/ideas`)
-      .then((res) => {
+      .then((res) =>
         dispatch({
           type: GET_IDEAS_SUCCESS,
           ideas: res.data,
-        });
-      })
+        }))
       .catch((err) => {
+        console.log(err);
         dispatch({
           type: GET_IDEAS_FAILURE,
         });

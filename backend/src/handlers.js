@@ -11,7 +11,7 @@ async function postIdea(request, h) {
     const insertedIdea = await raw(`INSERT INTO ideas (created_at, updated_at, text, done, what, "when", why, how)
         VALUES (now(), NULL, :text, :done, :what, :when, :why, :how) RETURNING created_at, id`, { ...type, text })
 
-    return h.response(insertedIdea.rows).code(201);
+    return h.response(insertedIdea.rows[0]).code(201);
   } catch (err) {
     return h.response('Error happened while inserting').code(503);
   }
