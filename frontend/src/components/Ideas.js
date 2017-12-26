@@ -5,6 +5,7 @@ import styled from "styled-components";
 import FontAwesome from 'react-fontawesome';
 import ReactMarkdown from "react-markdown";
 import { iconStyles } from '../utils';
+import moment from 'moment';
 
 const iconStyle = {
   color: '#ff6f00',
@@ -53,6 +54,8 @@ const IdeaBubble = styled.div`
   }
 `;
 
+const Timestamp = styled.div``;
+
 class Ideas extends Component {
   componentDidMount = () => {
     this.props.getIdeas();
@@ -69,6 +72,7 @@ class Ideas extends Component {
               style={iconStyle} />))
         }
         <ReactMarkdown source={idea.text} />
+        <Timestamp>{moment(idea.createdAt).format('MMM Do YYYY h:mm')}</Timestamp>
       </IdeaBubble>
     ));
 
