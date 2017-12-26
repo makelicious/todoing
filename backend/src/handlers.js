@@ -27,7 +27,7 @@ async function postIdea(request, h) {
         await trx.raw(queries.ideasTagQuery);
       }
 
-      return h.response(insertedIdea.rows[0]).code(201);
+      return h.response(formatIdea(insertedIdea.rows[0])).code(201);
     } catch (err) {
       console.log(err);
       return h.response('Error happened while inserting').code(503);
@@ -49,7 +49,7 @@ async function getIdeas(request, h) {
 function formatIdea(idea) {
   return {
     id: idea.id,
-    created_at: idea.created_at,
+    createdAt: idea.created_at,
     text: idea.text,
     type: {
       done: idea.done,

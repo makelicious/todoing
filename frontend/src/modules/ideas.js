@@ -92,7 +92,7 @@ export function submitIdea(idea) {
       .then((res) =>
         dispatch({
           type: SUBMIT_IDEA,
-          idea: res.idea,
+          idea: res.data,
         })).catch(err => { console.log(err); });
   };
 }
