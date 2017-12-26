@@ -12,7 +12,7 @@ async function postIdea(request, h) {
   return await transaction(async (trx) => {
     try {
       const insertedIdea = await trx.raw(`INSERT INTO ideas (id, created_at, updated_at, text, done, what, "when", why, how)
-      VALUES (:ideaId, now(), NULL, :text, :done, :what, :when, :why, :how) RETURNING created_at, id`, { ...type, text, ideaId })
+      VALUES (:ideaId, now(), NULL, :text, :done, :what, :when, :why, :how) RETURNING *`, { ...type, text, ideaId })
 
       if (tags.length > 0) {
         const queries = tags.reduce((queries, tag, i) => ({
