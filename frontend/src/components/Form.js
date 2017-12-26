@@ -169,7 +169,7 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => state.ideas;
 
 Form.propTypes = {
   submitIdea: PropTypes.func

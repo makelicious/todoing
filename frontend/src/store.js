@@ -1,8 +1,15 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import ideas from './modules/ideas';
-const store = createStore(
+import tags from './modules/tags';
+
+const reducers = combineReducers({
   ideas,
+  tags,
+});
+
+const store = createStore(
+  reducers,
   applyMiddleware(thunk),
 );
 

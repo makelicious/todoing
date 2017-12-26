@@ -1,5 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
+import { connect } from 'react-redux';
+import { fetchTags } from '../modules/tags';
 
 const TagListWrapper = styled.div`
   width: 20%;
@@ -31,23 +34,43 @@ const TagListItem = styled.li`
   }
 `;
 
-const Tags = () => (
-  <TagListWrapper>
-    <TagList>
-      <TagListItem>#Testing</TagListItem>
-      <TagListItem>#MockData</TagListItem>
-      <TagListItem>#Testing</TagListItem>
-      <TagListItem>#MockData</TagListItem>
-      <TagListItem>#Testing</TagListItem>
-      <TagListItem>#MockData</TagListItem>
-      <TagListItem>#Testing</TagListItem>
-      <TagListItem>#MockData</TagListItem>
-      <TagListItem>#Testing</TagListItem>
-      <TagListItem>#MockData</TagListItem>
-      <TagListItem>#Testing</TagListItem>
-      <TagListItem>#MockData</TagListItem>
-    </TagList>
-  </TagListWrapper>
-);
+class Tags extends Component {
+  componentDidMount = () => {
+    this.props.fetchTags();
+  };
 
-export default Tags;
+  render = () => (
+    <TagListWrapper>
+      <TagList>
+        {this.props.tags.map(tag =>
+          <TagListItem key={tag}>{tag}</TagListItem>
+        )}
+      </TagList>
+    </TagListWrapper>
+  );
+};
+
+Tags.propTypes = {
+  tags: PropTypes.array,
+  fetchTags: PropTypes.func,
+};
+
+
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    tags: state.tags.tags,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  fetchTags: () => {
+    dispatch(fetchTags());
+  },
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Tags);
+

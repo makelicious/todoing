@@ -88,7 +88,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => {
   return {
-    filters: state.filters,
+    filters: state.ideas.filters,
   };
 };
 

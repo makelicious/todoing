@@ -45,7 +45,7 @@ async function postIdea(request, h) {
   });
 }
 
-async function getIdeas(request, h) {
+async function fetchIdeas(request, h) {
   try {
     const ideas = await raw(`SELECT * FROM ideas`);
     return h.response(ideas.rows.map(formatIdea));
@@ -54,7 +54,7 @@ async function getIdeas(request, h) {
   }
 }
 
-async function getTags(request, h) {
+async function fetchTags(request, h) {
   try {
     const tags = await raw(`SELECT * FROM tags`);
     console.log('rivit', tags.rows);
@@ -97,6 +97,6 @@ const formatTag = (tag) => tag.name;
 
 module.exports = {
   postIdea,
-  getIdeas,
-  getTags,
+  fetchIdeas,
+  fetchTags,
 };

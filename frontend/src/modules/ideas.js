@@ -3,9 +3,9 @@ import config from '../config';
 
 const SUBMIT_IDEA = 'SUBMIT_IDEA';
 const FILTER_IDEAS = 'FILTER_IDEAS';
-const GET_IDEAS_IN_PROGRESS = 'GET_IDEAS_IN_PROGRESS';
-const GET_IDEAS_SUCCESS = 'GET_IDEAS_SUCCESS';
-const GET_IDEAS_FAILURE = 'GET_IDEAS_FAILURE';
+const FETCH_IDEAS_IN_PROGRESS = 'FETCH_IDEAS_IN_PROGRESS';
+const FETCH_IDEAS_SUCCESS = 'FETCH_IDEAS_SUCCESS';
+const FETCH_IDEAS_FAILURE = 'FETCH_IDEAS_FAILURE';
 
 const initialState = {
   ideas: [{
@@ -18,7 +18,6 @@ const initialState = {
       how: false
     },
     text: 'perkele',
-    tags: ''
   }],
   filters: {
     todo: false,
@@ -29,7 +28,7 @@ const initialState = {
     how: false
   },
   loading: false,
-  gotIdeas: false,
+  fetched: false,
 };
 
 export default function reducer(state = initialState, action = {}) {
@@ -40,24 +39,24 @@ export default function reducer(state = initialState, action = {}) {
         ...state,
         ideas: state.ideas.concat(action.idea),
       };
-    case GET_IDEAS_IN_PROGRESS:
+    case FETCH_IDEAS_IN_PROGRESS:
       return {
         ...state,
         loading: true,
       };
-    case GET_IDEAS_SUCCESS:
+    case FETCH_IDEAS_SUCCESS:
       console.log(action.ideas);
       return {
         ...state,
         loading: false,
-        gotIdeas: true,
+        fetched: true,
         ideas: state.ideas.concat(action.ideas),
       };
-    case GET_IDEAS_FAILURE:
+    case FETCH_IDEAS_FAILURE:
       return {
         ...state,
         loading: false,
-        gotIdeas: false,
+        fetched: false,
       };
     case FILTER_IDEAS:
       console.log(action);
@@ -97,19 +96,20 @@ export function submitIdea(idea) {
   };
 }
 
-export function getIdeas() {
-  return (dispatch, getState) => {
-    dispatch({ type: GET_IDEAS_IN_PROGRESS });
+export function fetchIdeas() {
+  return dispatch => {
+    dispatch({ type: FETCH_IDEAS_IN_PROGRESS });
+
     return axios.get(`${config.BACKEND_URL}/ideas`)
       .then((res) =>
         dispatch({
-          type: GET_IDEAS_SUCCESS,
+          type: FETCH_IDEAS_SUCCESS,
           ideas: res.data,
         }))
       .catch((err) => {
         console.log(err);
         dispatch({
-          type: GET_IDEAS_FAILURE,
+          type: FETCH_IDEAS_FAILURE,
         });
       });
   };

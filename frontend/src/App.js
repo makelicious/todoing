@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Header from "./components/Header";
 import Form from "./components/Form";
 import Tags from "./components/Tags";
-import Ideas from "./containers/ideas";
+import Ideas from "./components/Ideas";
 import bgImage from "./assets/1443890484047-5eaa67d1d630.jpeg";
 
 const Background = styled.div`

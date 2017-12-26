@@ -1,11 +1,13 @@
 import '../styles/font-awesome/css/font-awesome.css';
 import React, { Component } from "react";
+import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import FontAwesome from 'react-fontawesome';
 import ReactMarkdown from "react-markdown";
-import { iconStyles } from '../utils';
 import moment from 'moment';
+import { iconStyles } from '../utils';
+import { fetchIdeas } from '../modules/ideas';
 
 const iconStyle = {
   color: '#ff6f00',
@@ -58,7 +60,7 @@ const Timestamp = styled.div``;
 
 class Ideas extends Component {
   componentDidMount = () => {
-    this.props.getIdeas();
+    this.props.fetchIdeas();
   };
 
   render = () => {
@@ -82,8 +84,25 @@ class Ideas extends Component {
 
 Ideas.propTypes = {
   ideas: PropTypes.array,
-  getIdeas: PropTypes.func,
+  fetchIdeas: PropTypes.func,
   filters: PropTypes.object,
 };
 
-export default Ideas;
+const mapStateToProps = state => {
+  return {
+    ideas: state.ideas.ideas,
+    filters: state.ideas.filters,
+  };
+};
+
+const mapDispatchToProps = dispatch => ({
+  fetchIdeas: () => {
+    dispatch(fetchIdeas());
+  },
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Ideas);
+
