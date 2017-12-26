@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import FontAwesome from "react-fontawesome";
-import { submitIdea } from "../modules/ideas";
 import Textarea from "react-textarea-autosize";
+import { submitIdea } from "../modules/ideas";
 import { iconStyles } from "../utils";
 
 const iconStyle = {
@@ -82,8 +82,8 @@ const initialState = {
     why: false,
     how: false
   },
-  text: "",
-  tags: []
+  text: '',
+  tags: [],
 };
 
 class Form extends Component {
