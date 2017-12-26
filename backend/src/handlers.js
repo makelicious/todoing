@@ -32,8 +32,12 @@ async function postIdea(request, h) {
           await trx.raw(insertQueries.ideasTags);
         }
       }
+      const formattedIdea = formatIdea(insertIdea.rows[0]);
 
-      return h.response(formatIdea(insertedIdea.rows[0])).code(201);
+      return h.response({
+        ...formattedIdea,
+        tags,
+      }).code(201);
     } catch (err) {
       console.log(err);
       return h.response('Error happened while inserting').code(503);
