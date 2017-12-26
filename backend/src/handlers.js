@@ -8,11 +8,12 @@ const _ = require('lodash');
 
 async function postIdea(request, h) {
   const { text, type, tags } = request.payload;
-  const ideaId = uuidv4();
 
   return await transaction(async (trx) => {
     try {
-      const insertedIdea = await trx.raw(`INSERT INTO ideas (id, created_at, updated_at, text, done, what, "when", why, how)
+      const ideaId = uuidv4();
+
+      const insertIdea = await trx.raw(`INSERT INTO ideas (id, created_at, updated_at, text, done, what, "when", why, how)
       VALUES (:ideaId, now(), NULL, :text, :done, :what, :when, :why, :how) RETURNING *`, { ...type, text, ideaId })
 
       if (tags.length > 0) {
@@ -44,9 +45,18 @@ async function getIdeas(request, h) {
   try {
     const ideas = await raw(`SELECT * FROM ideas`);
     return h.response(ideas.rows.map(formatIdea));
+  } catch (err) {
+    return h.response('Cant get ideas').code(503);
   }
-  catch (err) {
-    return h.response('Cant get ideas').code(500);
+}
+
+async function getTags(request, h) {
+  try {
+    const tags = await raw(`SELECT * FROM tags`);
+    console.log('rivit', tags.rows);
+    return h.response(tags.rows.map(formatTag));
+  } catch (err) {
+    return h.response('Cant get tags').code(503);
   }
 }
 
@@ -58,7 +68,7 @@ async function filterDuplicateTags(tags) {
   const duplicateTags = await raw(tagSelectQuery);
   const duplicateTagNames = duplicateTags.rows.map((tag) => tag.name);
 
-  return duplicateTags.rows.length === 0
+  return duplicateTagNames.length === 0
     ? tags
     : _.reject(tags, (tag) => _.includes(duplicateTagNames, tag));
 }
@@ -79,7 +89,10 @@ function formatIdea(idea) {
   };
 }
 
+const formatTag = (tag) => tag.name;
+
 module.exports = {
   postIdea,
   getIdeas,
+  getTags,
 };
