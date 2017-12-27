@@ -9,12 +9,12 @@ const _ = require('lodash');
 async function postIdea(request, h) {
   const { text, type, tags } = request.payload;
 
-  return await transaction(async (trx) => {
-    try {
+  try {
+    return await transaction(async (trx) => {
       const ideaId = uuidv4();
 
       const insertIdea = await trx.raw(`INSERT INTO ideas (id, created_at, updated_at, text, done, what, "when", why, how)
-      VALUES (:ideaId, now(), NULL, :text, :done, :what, :when, :why, :how) RETURNING *`, { ...type, text, ideaId })
+        VALUES (:ideaId, now(), NULL, :text, :done, :what, :when, :why, :how) RETURNING *`, { ...type, text, ideaId })
 
       if (tags.length > 0) {
         const distinctTags = await filterDuplicateTags(tags);
@@ -38,11 +38,11 @@ async function postIdea(request, h) {
         ...formattedIdea,
         tags,
       }).code(201);
-    } catch (err) {
-      console.log(err);
-      return h.response('Error happened while inserting').code(503);
-    }
-  });
+    });
+  } catch (err) {
+    console.log(err);
+    return h.response('Error happened while inserting').code(503);
+  }
 }
 
 async function fetchIdeas(request, h) {
