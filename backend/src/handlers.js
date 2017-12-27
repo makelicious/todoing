@@ -65,9 +65,9 @@ function filterDuplicateIdeas(ideas) {
   return ideas.reduce((distinctIdeas, idea) => {
     return idea.tags
       ? distinctIdeas.length === 0
-        // this is first iteration so we want to pass it anyway
+        // this is first iteration so we want to pass it in
+        // now, since reduce wont run with empty array
         ? distinctIdeas.concat({ ...idea, tags: [idea.tags] })
-        // if this isn't first we have already added tag to a previous instance of idea
         : distinctIdeas.reduce((ids, i) => i.id === idea.id
           ? ids.concat({ ...i, tags: i.tags.concat(idea.tags) })
           : ids.concat({ ...idea, tags: [idea.tags] })

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '../config';
 
-const SUBMIT_IDEA = 'SUBMIT_IDEA';
+export const SUBMIT_IDEA = 'SUBMIT_IDEA';
 const FILTER_IDEAS = 'FILTER_IDEAS';
 const FETCH_IDEAS_IN_PROGRESS = 'FETCH_IDEAS_IN_PROGRESS';
 const FETCH_IDEAS_SUCCESS = 'FETCH_IDEAS_SUCCESS';
@@ -18,6 +18,7 @@ const initialState = {
       how: false
     },
     text: 'perkele',
+    tags: [],
   }],
   filters: {
     todo: false,
