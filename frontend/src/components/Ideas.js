@@ -91,7 +91,7 @@ Ideas.propTypes = {
 const mapStateToProps = state => {
   return {
     ideas: state.ideas.ideas,
-    filters: state.ideas.filters,
+    filters: state.filters,
   };
 };
 

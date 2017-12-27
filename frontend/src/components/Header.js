@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import styled from 'styled-components';
 import FontAwesome from 'react-fontawesome';
-import { filterBy } from '../modules/ideas';
+import { filterBy } from '../modules/filters';
 import { iconStyles } from '../utils';
 
 const Wrapper = styled.div`
@@ -67,7 +67,7 @@ const Header = props => (
               name={value}
               onClick={() => props.filterBy(key)}
               size='2x'
-              style={{ color: props.filters[key] ? '#68C3D4' : '#568EA3', padding: '1rem' }}
+              style={{ color: props.filters.type[key] ? '#68C3D4' : '#568EA3', padding: '1rem' }}
             />
           )
         }
@@ -88,7 +88,7 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => {
   return {
-    filters: state.ideas.filters,
+    filters: state.filters,
   };
 };
 

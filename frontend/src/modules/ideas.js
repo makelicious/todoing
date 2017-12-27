@@ -2,7 +2,6 @@ import axios from 'axios';
 import config from '../config';
 
 export const SUBMIT_IDEA = 'SUBMIT_IDEA';
-const FILTER_IDEAS = 'FILTER_IDEAS';
 const FETCH_IDEAS_IN_PROGRESS = 'FETCH_IDEAS_IN_PROGRESS';
 const FETCH_IDEAS_SUCCESS = 'FETCH_IDEAS_SUCCESS';
 const FETCH_IDEAS_FAILURE = 'FETCH_IDEAS_FAILURE';
@@ -20,14 +19,6 @@ const initialState = {
     text: 'perkele',
     tags: [],
   }],
-  filters: {
-    todo: false,
-    done: false,
-    when: false,
-    what: false,
-    why: false,
-    how: false
-  },
   loading: false,
   fetched: false,
 };
@@ -59,25 +50,8 @@ export default function reducer(state = initialState, action = {}) {
         loading: false,
         fetched: false,
       };
-    case FILTER_IDEAS:
-      console.log(action);
-      console.log(state.filters);
-      return {
-        ...state,
-        filters: {
-          ...state.filters,
-          [action.filterType]: !state.filters[action.filterType],
-        }
-      };
     default: return state;
   }
-}
-
-export function filterBy(type) {
-  return {
-    type: FILTER_IDEAS,
-    filterType: type,
-  };
 }
 
 export function submitIdea(idea) {
