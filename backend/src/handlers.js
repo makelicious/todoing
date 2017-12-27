@@ -47,17 +47,40 @@ async function postIdea(request, h) {
 
 async function fetchIdeas(request, h) {
   try {
-    const ideas = await raw(`SELECT * FROM ideas`);
-    return h.response(ideas.rows.map(formatIdea));
+    const ideas = await raw(`
+    SELECT i.id, i.text, i.created_at, i.done, i.what, i.how, i.why, i.when, i.done, it.tag_name as tags
+    FROM ideas i
+    LEFT JOIN ideas_tags it on i.id = it.idea_id;
+   `);
+
+    const distinctIdeas = filterDuplicateIdeas(ideas.rows);
+
+    return h.response(distinctIdeas.map(formatIdea));
   } catch (err) {
     return h.response('Cant get ideas').code(503);
   }
 }
 
+function filterDuplicateIdeas(ideas) {
+  return ideas.reduce((distinctIdeas, idea) => {
+    return idea.tags
+      ? distinctIdeas.length === 0
+        // this is first iteration so we want to pass it anyway
+        ? distinctIdeas.concat({ ...idea, tags: [idea.tags] })
+        // if this isn't first we have already added tag to a previous instance of idea
+        : distinctIdeas.reduce((ids, i) => i.id === idea.id
+          ? ids.concat({ ...i, tags: i.tags.concat(idea.tags) })
+          : ids.concat({ ...idea, tags: [idea.tags] })
+          , [])
+      // value doesnt have a tag so it has to be unique
+      : distinctIdeas.concat({ ...idea, tags: [] });
+  }, [])
+}
+
 async function fetchTags(request, h) {
   try {
     const tags = await raw(`SELECT * FROM tags`);
-    console.log('rivit', tags.rows);
+
     return h.response(tags.rows.map(formatTag));
   } catch (err) {
     return h.response('Cant get tags').code(503);
@@ -90,6 +113,7 @@ function formatIdea(idea) {
       why: idea.why,
       how: idea.how,
     },
+    tags: idea.tags,
   };
 }
 
