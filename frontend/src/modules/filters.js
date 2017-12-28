@@ -52,6 +52,8 @@ export function filterByTag(tag) {
 
 function updateFilterTags(oldTags, newTag) {
   return oldTags.length > 0
-    ? _.reject(oldTags, (tag => tag === newTag))
+    ? _.reject(oldTags, (tag => tag === newTag)).length === oldTags.length
+      ? oldTags.concat(newTag)
+      : _.reject(oldTags, (tag => tag === newTag))
     : [newTag];
 }
