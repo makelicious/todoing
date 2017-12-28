@@ -68,9 +68,11 @@ function filterDuplicateIdeas(ideas) {
         // this is first iteration so we want to pass it in
         // now, since reduce wont run with empty array
         ? distinctIdeas.concat({ ...idea, tags: [idea.tags] })
-        : distinctIdeas.reduce((ids, i) => i.id === idea.id
+        : distinctIdeas.reduce((ids, i, index) => i.id === idea.id
           ? ids.concat({ ...i, tags: i.tags.concat(idea.tags) })
-          : ids.concat({ ...idea, tags: [idea.tags] })
+          : index === distinctIdeas.length - 1
+            ? ids.concat({ ...idea, tags: [idea.tags] })
+            : ids.concat(i)
           , [])
       // value doesnt have a tag so it has to be unique
       : distinctIdeas.concat({ ...idea, tags: [] });
