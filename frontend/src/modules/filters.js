@@ -24,16 +24,26 @@ export default function reducer(state = initialState, action = {}) {
         }
       };
     case FILTER_IDEAS_BY_TAG:
-      return state;
+      return {
+        ...state,
+        tags: state.tags.concat(action.tag),
+      };
     case RESET_FILTERS:
       return state;
     default: return state;
   }
 }
 
-export function filterBy(type) {
+export function filterByType(type) {
   return {
     type: FILTER_IDEAS_BY_TYPE,
     filterType: type,
+  };
+}
+
+export function filterByTag(tag) {
+  return {
+    type: FILTER_IDEAS_BY_TAG,
+    tag,
   };
 }

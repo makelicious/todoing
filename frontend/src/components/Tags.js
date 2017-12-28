@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styled from "styled-components";
 import { connect } from 'react-redux';
 import { fetchTags } from '../modules/tags';
+import { filterByTag } from '../modules/filters';
 
 const TagListWrapper = styled.div`
   width: 20%;
@@ -42,9 +43,12 @@ class Tags extends Component {
   render = () => (
     <TagListWrapper>
       <TagList>
-        {this.props.tags.map(tag =>
-          <TagListItem key={tag}>{tag}</TagListItem>
-        )}
+        {this.props.tags
+          .map(tag =>
+            <TagListItem
+              key={tag}
+              onClick={() => this.props.filterByTag(tag)}>{tag}</TagListItem>
+          )}
       </TagList>
     </TagListWrapper>
   );
@@ -53,6 +57,8 @@ class Tags extends Component {
 Tags.propTypes = {
   tags: PropTypes.array,
   fetchTags: PropTypes.func,
+  filterByTag: PropTypes.func,
+
 };
 
 
@@ -60,6 +66,7 @@ const mapStateToProps = state => {
   console.log(state);
   return {
     tags: state.tags.tags,
+    filters: state.filters,
   };
 };
 
@@ -67,6 +74,9 @@ const mapDispatchToProps = dispatch => ({
   fetchTags: () => {
     dispatch(fetchTags());
   },
+  filterByTag: (tag) => {
+    dispatch(filterByTag(tag));
+  }
 });
 
 export default connect(

@@ -67,7 +67,7 @@ class Ideas extends Component {
   render = () => {
     const { ideas, filters } = this.props;
     const text = ideas
-      .filter(idea => _.isEqual(idea.type, filters.type))
+      .filter(idea => filterIdea(idea, filters))
       .map((idea, index) => (
         <IdeaBubble key={index}>
           {
@@ -91,6 +91,13 @@ Ideas.propTypes = {
   fetchIdeas: PropTypes.func,
   filters: PropTypes.object,
 };
+
+
+function filterIdea(idea, filters) {
+  return _.isEqual(idea.type, filters.type) && (filters.tags.length > 0
+    ? _.isEqual(idea.tags, filters.tags)
+    : true);
+}
 
 const mapStateToProps = state => {
   return {
