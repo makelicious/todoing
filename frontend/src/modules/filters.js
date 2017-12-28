@@ -2,21 +2,18 @@ const FILTER_IDEAS_BY_TAG = 'FILTER_IDEAS_BY_TAG';
 const FILTER_IDEAS_BY_TYPE = 'FILTER_IDEAS_BY_TYPE';
 const RESET_FILTERS = 'RESET_FILTERS';
 
-
 const initialState = {
   type: {
-    todo: false,
     done: false,
-    when: false,
+    how: false,
     what: false,
+    when: false,
     why: false,
-    how: false
   },
   tags: [],
 };
 
 export default function reducer(state = initialState, action = {}) {
-  console.log(action.type);
   switch (action.type) {
     case FILTER_IDEAS_BY_TYPE:
       return {
@@ -33,7 +30,6 @@ export default function reducer(state = initialState, action = {}) {
     default: return state;
   }
 }
-
 
 export function filterBy(type) {
   return {

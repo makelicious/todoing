@@ -6,6 +6,7 @@ import styled from "styled-components";
 import FontAwesome from 'react-fontawesome';
 import ReactMarkdown from "react-markdown";
 import moment from 'moment';
+import _ from 'lodash';
 import { iconStyles } from '../utils';
 import { fetchIdeas } from '../modules/ideas';
 
@@ -64,19 +65,22 @@ class Ideas extends Component {
   };
 
   render = () => {
-    const text = this.props.ideas.map((idea, index) => (
-      <IdeaBubble key={index}>
-        {
-          Object.entries(idea.type).map(([key, value]) => (
-            value &&
-            <FontAwesome
-              name={iconStyles[key]}
-              style={iconStyle} />))
-        }
-        <ReactMarkdown source={idea.text} />
-        <Timestamp>{moment(idea.createdAt).format('MMM Do YYYY h:mm')}</Timestamp>
-      </IdeaBubble>
-    ));
+    const { ideas, filters } = this.props;
+    const text = ideas
+      .filter(idea => _.isEqual(idea.type, filters.type))
+      .map((idea, index) => (
+        <IdeaBubble key={index}>
+          {
+            Object.entries(idea.type).map(([key, value]) => (
+              value &&
+              <FontAwesome
+                name={iconStyles[key]}
+                style={iconStyle} />))
+          }
+          <ReactMarkdown source={idea.text} />
+          <Timestamp>{moment(idea.createdAt).format('MMM Do YYYY h:mm')}</Timestamp>
+        </IdeaBubble>
+      ));
 
     return <IdeaWrapper>{text}</IdeaWrapper>;
   };
