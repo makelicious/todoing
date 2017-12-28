@@ -61,22 +61,25 @@ async function fetchIdeas(request, h) {
   }
 }
 
-function filterDuplicateIdeas(ideas) {
-  return ideas.reduce((distinctIdeas, idea) => {
-    return idea.tags
+function filterDuplicateIdeas(allIdeas) {
+  return allIdeas.reduce((distinctIdeas, possiblyDistinct) =>
+    // defaults to null if no tag
+    possiblyDistinct.tags
       ? distinctIdeas.length === 0
         // this is first iteration so we want to pass it in
-        // now, since reduce wont run with empty array
-        ? distinctIdeas.concat({ ...idea, tags: [idea.tags] })
-        : distinctIdeas.reduce((ids, i, index) => i.id === idea.id
-          ? ids.concat({ ...i, tags: i.tags.concat(idea.tags) })
-          : index === distinctIdeas.length - 1
-            ? ids.concat({ ...idea, tags: [idea.tags] })
-            : ids.concat(i)
+        // since reduce wont run on empty array
+        ? distinctIdeas.concat({ ...possiblyDistinct, tags: [possiblyDistinct.tags] })
+        : distinctIdeas.reduce((ideas, distinct, index) =>
+          distinct.id === possiblyDistinct.id
+            ? ideas.concat({ ...distinct, tags: distinct.tags.concat(possiblyDistinct.tags) })
+            // if we are on the last index no matches have been found
+            : index === distinctIdeas.length - 1
+              ? ideas.concat({ ...possiblyDistinct, tags: [possiblyDistinct.tags] })
+              : ideas.concat(distinct)
           , [])
       // value doesnt have a tag so it has to be unique
-      : distinctIdeas.concat({ ...idea, tags: [] });
-  }, [])
+      : distinctIdeas.concat({ ...possiblyDistinct, tags: [] })
+    , [])
 }
 
 async function fetchTags(request, h) {
