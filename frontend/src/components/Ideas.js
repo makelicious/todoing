@@ -92,11 +92,10 @@ Ideas.propTypes = {
   filters: PropTypes.object,
 };
 
-
 function filterIdea(idea, filters) {
-  return _.isEqual(idea.type, filters.type) && (filters.tags.length > 0
-    ? _.isEqual(idea.tags, filters.tags)
-    : true);
+  return filters.tags.length === 0
+    || _.difference(filters.tags, idea.tags).length === 0
+    || _.intersection(filters.tags, idea.tags).length > 0;
 }
 
 const mapStateToProps = state => {
