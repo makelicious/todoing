@@ -94,8 +94,7 @@ Ideas.propTypes = {
 
 function filterIdea(idea, filters) {
   return filters.tags.length === 0
-    || _.difference(filters.tags, idea.tags).length === 0
-    || _.intersection(filters.tags, idea.tags).length > 0;
+    || _.difference(filters.tags, idea.tags).length === 0;
 }
 
 const mapStateToProps = state => {
