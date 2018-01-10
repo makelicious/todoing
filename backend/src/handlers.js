@@ -1,8 +1,3 @@
-const knex = require('knex');
-const knexConfig = require('../knexfile');
-const connection = knex(knexConfig);
-const { raw, transaction } = connection;
-const uuidv4 = require('uuid/v4');
 const {
   saveIdea,
   getAllIdeas,
