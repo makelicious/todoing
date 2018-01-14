@@ -67,7 +67,7 @@ class Ideas extends Component {
   render = () => {
     const { ideas, filters } = this.props;
     const text = ideas
-      .filter(idea => filterIdea(idea, filters))
+      .filter(idea => _.isEqual(idea.type, filters.type) && filterIdea(idea, filters))
       .map((idea, index) => (
         <IdeaBubble key={index}>
           {
