@@ -1,4 +1,4 @@
-const { postIdea, fetchIdeas, fetchTags } = require('./handlers');
+const { postIdea, fetchIdeas, fetchTags, deleteIdea } = require('./handlers');
 
 const routes = [
   {
@@ -24,6 +24,14 @@ const routes = [
       cors: true,
     },
     handler: fetchTags,
+  },
+  {
+    method: 'DELETE',
+    path: '/ideas/{id}',
+    options: {
+      cors: true,
+    },
+    handler: deleteIdea,
   },
 ];
 

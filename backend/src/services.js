@@ -42,7 +42,10 @@ async function saveIdea(payload) {
 
 async function getAllIdeas() {
   const ideas = await raw(`
-    SELECT i.id, i.text, i.created_at, i.done, i.what, i.how, i.why, i.when, i.done, it.tag_name as tags
+    SELECT
+      i.id, i.text, i.created_at, i.done,
+      i.what, i.how, i.why,
+      i.when, i.done, it.tag_name as tags
     FROM ideas i
     LEFT JOIN ideas_tags it on i.id = it.idea_id;
   `);
@@ -56,6 +59,12 @@ async function getAllTags() {
   const tags = await raw(`SELECT * FROM tags`);
 
   return tags.rows.map(formatTag);
+}
+
+async function deleteIdeaById(id) {
+  const idea = await raw(`DELETE FROM ideas WHERE id = '${id}' RETURNING *;`);
+
+  return idea.rows[0];
 }
 
 async function filterDuplicateTags(tags) {
@@ -106,5 +115,6 @@ module.exports = {
   saveIdea,
   getAllIdeas,
   getAllTags,
+  deleteIdeaById,
 };
 

@@ -7,6 +7,7 @@ const {
   saveIdea,
   getAllIdeas,
   getAllTags,
+  deleteIdeaById,
 } = require('./services');
 
 
@@ -44,9 +45,22 @@ async function fetchTags(request, h) {
   }
 }
 
+async function deleteIdea(request, h) {
+  try {
+    const { payload } = request;
+    const deletedId = await deleteIdeaById(payload);
+
+    return h.response(deletedId).code(201);
+  } catch (err) {
+    console.log(err);
+    return h.response('foo').code(500);
+  }
+}
+
 
 module.exports = {
   postIdea,
   fetchIdeas,
   fetchTags,
+  deleteIdea,
 };
