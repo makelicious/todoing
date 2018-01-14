@@ -2,6 +2,7 @@ import axios from 'axios';
 import config from '../config';
 
 export const SUBMIT_IDEA = 'SUBMIT_IDEA';
+const DELETE_IDEA = 'DELETE_IDEA';
 const FETCH_IDEAS_IN_PROGRESS = 'FETCH_IDEAS_IN_PROGRESS';
 const FETCH_IDEAS_SUCCESS = 'FETCH_IDEAS_SUCCESS';
 const FETCH_IDEAS_FAILURE = 'FETCH_IDEAS_FAILURE';
@@ -50,6 +51,11 @@ export default function reducer(state = initialState, action = {}) {
         loading: false,
         fetched: false,
       };
+    case DELETE_IDEA:
+      return {
+        ...state,
+        ideas: state.ideas.filter(idea => idea.id !== action.id),
+      };
     default: return state;
   }
 }
@@ -67,6 +73,22 @@ export function submitIdea(idea) {
         dispatch({
           type: SUBMIT_IDEA,
           idea: res.data,
+        })).catch(err => { console.log(err); });
+  };
+}
+
+export function deleteIdea(id) {
+  const axiosConfig = {
+    method: 'delete',
+    url: `${config.BACKEND_URL}/ideas/${id}`,
+    data: id,
+  };
+  return dispatch => {
+    return axios(axiosConfig)
+      .then((res) =>
+        dispatch({
+          type: DELETE_IDEA,
+          id: res.data.id,
         })).catch(err => { console.log(err); });
   };
 }

@@ -8,7 +8,7 @@ import ReactMarkdown from "react-markdown";
 import moment from 'moment';
 import _ from 'lodash';
 import { iconStyles } from '../utils';
-import { fetchIdeas } from '../modules/ideas';
+import { fetchIdeas, deleteIdea } from '../modules/ideas';
 
 const tagIconStyle = {
   color: '#ff6f00',
@@ -98,6 +98,10 @@ class Ideas extends Component {
     this.props.fetchIdeas();
   };
 
+  deleteIdea = (id) => {
+    this.props.deleteIdea(id);
+  }
+
   render = () => {
     const { ideas, filters } = this.props;
     const text = ideas
@@ -118,7 +122,8 @@ class Ideas extends Component {
           <Icons>
             <FontAwesome
               name="trash"
-              style={trashIconStyle} />
+              style={trashIconStyle}
+              onClick={() => this.deleteIdea(idea.id)} />
             <FontAwesome
               name="pencil"
               style={editIconStyle} />
@@ -132,8 +137,9 @@ class Ideas extends Component {
 
 Ideas.propTypes = {
   ideas: PropTypes.array,
-  fetchIdeas: PropTypes.func,
   filters: PropTypes.object,
+  fetchIdeas: PropTypes.func,
+  deleteIdea: PropTypes.func,
 };
 
 function filterIdea(idea, filters) {
@@ -152,6 +158,9 @@ const mapDispatchToProps = dispatch => ({
   fetchIdeas: () => {
     dispatch(fetchIdeas());
   },
+  deleteIdea: (id) => {
+    dispatch(deleteIdea(id));
+  }
 });
 
 export default connect(
