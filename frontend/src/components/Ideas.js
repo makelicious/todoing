@@ -10,13 +10,31 @@ import _ from 'lodash';
 import { iconStyles } from '../utils';
 import { fetchIdeas } from '../modules/ideas';
 
-const iconStyle = {
+const tagIconStyle = {
   color: '#ff6f00',
   marginRight: '5px',
   float: 'right',
 };
 
-const IdeaWrapper = styled.div`
+const trashIconStyle = {
+  padding: '1rem',
+  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  borderRadius: '3px',
+  color: '#107896',
+  borderBottom: '1px solid #107896',
+  borderLeft: '1px solid #107896',
+};
+
+const editIconStyle = {
+  padding: '1rem',
+  marginBottom: '1rem',
+  backgroundColor: 'rgba(255, 255, 255, 0.9)',
+  borderRadius: '3px',
+  color: '#107896',
+  borderLeft: '1px solid #107896',
+};
+
+const Wrapper = styled.div`
   display: flex;
   flex: 1 1 auto;
   flex-direction: column-reverse;
@@ -28,12 +46,25 @@ const IdeaWrapper = styled.div`
   order: 2;
 `;
 
+const IdeaWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const Icons = styled.div`
+  display: flex;
+  font-size: 1.5rem;
+  flex-direction: column;
+  margin: 1rem 0 0 0;
+`;
+
 const IdeaBubble = styled.div`
   align-self: center;
   box-sizing: padding-box;
   font-size: 18px;
   background: rgba(255, 255, 255, 0.95);
   padding: 1rem;
+  padding-left: 2rem;
   margin: 1rem 0;
   max-width: 80%;
   min-width: 150px;
@@ -57,7 +88,10 @@ const IdeaBubble = styled.div`
   }
 `;
 
-const Timestamp = styled.div``;
+const Timestamp = styled.div`
+  font-size: 0.75em;
+  color: rgba(0, 0, 0, 0.6);
+`;
 
 class Ideas extends Component {
   componentDidMount = () => {
@@ -69,20 +103,30 @@ class Ideas extends Component {
     const text = ideas
       .filter(idea => _.isEqual(idea.type, filters.type) && filterIdea(idea, filters))
       .map((idea, index) => (
-        <IdeaBubble key={index}>
-          {
-            Object.entries(idea.type).map(([key, value]) => (
-              value &&
-              <FontAwesome
-                name={iconStyles[key]}
-                style={iconStyle} />))
-          }
-          <ReactMarkdown source={idea.text} />
-          <Timestamp>{moment(idea.createdAt).format('MMM Do YYYY h:mm')}</Timestamp>
-        </IdeaBubble>
+        <IdeaWrapper key={index}>
+          <IdeaBubble key={index}>
+            {
+              Object.entries(idea.type).map(([key, value]) => (
+                value &&
+                <FontAwesome
+                  name={iconStyles[key]}
+                  style={tagIconStyle} />))
+            }
+            <ReactMarkdown source={idea.text} />
+            <Timestamp>{moment(idea.createdAt).format('MMM Do YYYY h:mm')}</Timestamp>
+          </IdeaBubble>
+          <Icons>
+            <FontAwesome
+              name="trash"
+              style={trashIconStyle} />
+            <FontAwesome
+              name="pencil"
+              style={editIconStyle} />
+          </Icons>
+        </IdeaWrapper>
       ));
 
-    return <IdeaWrapper>{text}</IdeaWrapper>;
+    return <Wrapper>{text}</Wrapper>;
   };
 }
 
