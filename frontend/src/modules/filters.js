@@ -6,7 +6,6 @@ const RESET_FILTERS = 'RESET_FILTERS';
 
 const initialState = {
   type: {
-    done: false,
     how: false,
     what: false,
     when: false,
