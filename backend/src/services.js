@@ -19,12 +19,15 @@ async function saveIdea(payload) {
       const distinctTags = await filterDuplicateTags(tags);
 
       if (distinctTags.length > 0) {
-        const insertQueries = distinctTags.reduce((queries, tag, i) => ({
-          tags: queries.tags.concat(` ('${uuidv4()}', now(), NULL, '${tag}') ${i === distinctTags.length - 1 ? '' : ','}`),
-          ideasTags: queries.ideasTags.concat(` ('${ideaId}', '${tag}') ${i === distinctTags.length - 1 ? '' : ','}`),
-        }), {
+        const insertQueries = distinctTags.reduce((queries, tag, i) => {
+          const tagId = uuidv4();
+          return {
+            tags: queries.tags.concat(` ('${tagId}', now(), NULL, '${tag}') ${i === distinctTags.length - 1 ? '' : ','}`),
+            ideasTags: queries.ideasTags.concat(` ('${ideaId}', '${tagId}') ${i === distinctTags.length - 1 ? '' : ','}`),
+          };
+        }, {
             tags: 'INSERT INTO tags (id, created_at, updated_at, name) VALUES',
-            ideasTags: 'INSERT INTO ideas_tags (idea_id, tag_name) VALUES',
+            ideasTags: 'INSERT INTO ideas_tags (idea_id, tag_id) VALUES',
           });
 
         await trx.raw(insertQueries.tags);
@@ -42,12 +45,10 @@ async function saveIdea(payload) {
 
 async function getAllIdeas() {
   const ideas = await raw(`
-    SELECT
-      i.id, i.text, i.created_at,
-      i.what, i.how, i.why,
-      i.when, it.tag_name as tags
+    SELECT i.id, i.text, i.created_at, i.what, i.how, i.why, i.when, t.name AS tags
     FROM ideas i
-    LEFT JOIN ideas_tags it on i.id = it.idea_id;
+    LEFT JOIN ideas_tags it ON i.id = it.idea_id
+    LEFT JOIN tags t ON t.id = it.tag_id;
   `);
   const uniqueIdeas = filterDuplicateIdeas(ideas.rows);
 

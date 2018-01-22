@@ -31,6 +31,7 @@ async function fetchIdeas(request, h) {
 
     return h.response(ideas);
   } catch (err) {
+    console.log(err);
     return h.response('Cant get ideas').code(503);
   }
 }
