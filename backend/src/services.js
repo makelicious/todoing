@@ -12,8 +12,8 @@ async function saveIdea(payload) {
   return await transaction(async (trx) => {
     const ideaId = uuidv4();
 
-    const savedIdea = await trx.raw(`INSERT INTO ideas (id, created_at, updated_at, text, done, what, "when", why, how)
-      VALUES (:ideaId, now(), NULL, :text, :done, :what, :when, :why, :how) RETURNING *`, { ...type, text, ideaId });
+    const savedIdea = await trx.raw(`INSERT INTO ideas (id, created_at, updated_at, text, what, "when", why, how)
+      VALUES (:ideaId, now(), NULL, :text, :what, :when, :why, :how) RETURNING *`, { ...type, text, ideaId });
 
     if (tags.length > 0) {
       const distinctTags = await filterDuplicateTags(tags);
@@ -43,9 +43,9 @@ async function saveIdea(payload) {
 async function getAllIdeas() {
   const ideas = await raw(`
     SELECT
-      i.id, i.text, i.created_at, i.done,
+      i.id, i.text, i.created_at,
       i.what, i.how, i.why,
-      i.when, i.done, it.tag_name as tags
+      i.when, it.tag_name as tags
     FROM ideas i
     LEFT JOIN ideas_tags it on i.id = it.idea_id;
   `);
@@ -62,7 +62,8 @@ async function getAllTags() {
 }
 
 async function deleteIdeaById(id) {
-  const idea = await raw(`DELETE FROM ideas WHERE id = '${id}' RETURNING *;`);
+  const idea = await raw(`DELETE FROM ideas
+    WHERE id = '${id}' RETURNING *;`);
 
   return idea.rows[0];
 }
@@ -98,7 +99,6 @@ function formatIdea(idea) {
     createdAt: idea.created_at,
     text: idea.text,
     type: {
-      done: idea.done,
       when: idea.when,
       what: idea.what,
       why: idea.why,

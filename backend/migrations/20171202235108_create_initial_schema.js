@@ -4,7 +4,6 @@ exports.up = function (knex) {
     t.string('id').primary();
     t.timestamps();
     t.string('text');
-    t.boolean('done');
     t.boolean('when');
     t.boolean('what');
     t.boolean('why');
@@ -19,8 +18,8 @@ exports.up = function (knex) {
 
   const ideas_tags = knex.schema.createTable('ideas_tags', (t) => {
     t.string('idea_id').references('ideas.id')
-    t.string('tag_name').references('tags.name')
-    t.primary(['idea_id', 'tag_name']);
+    t.string('tag_id').references('tags.id')
+    t.primary(['idea_id', 'tag_id']);
 
   });
 
