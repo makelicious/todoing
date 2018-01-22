@@ -87,7 +87,7 @@ function filterDuplicateIdeas(allIdeas) {
 
   return uniqueIdeasById.map((uniqueIdea) => {
     const listOfTagsMatchingThisUniqueId =
-      allIdeas.filter((idea) => idea.id === uniqueIdea.id).map(({ tags }) => tags)
+      allIdeas.filter(idea => idea.id === uniqueIdea.id && idea.tags).map(({ tags }) => tags)
 
     return { ...uniqueIdea, tags: listOfTagsMatchingThisUniqueId }
   });
