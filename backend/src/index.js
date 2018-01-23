@@ -3,17 +3,14 @@
 const Hapi = require('hapi');
 const routes = require('./routes');
 const config = require('../config');
+const server = require('../server');
+
 
 async function startServer() {
-  const server = Hapi.server({
-    host: config.HOST,
-    port: parseInt(config.PORT),
-  });
-
-  server.route(routes);
+  const serverInstance = await server.create();
 
   try {
-    await server.start();
+    await serverInstance.start();
   }
   catch (err) {
     console.log(err);
@@ -23,3 +20,4 @@ async function startServer() {
 }
 
 startServer();
+
