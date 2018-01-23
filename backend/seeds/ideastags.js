@@ -1,10 +1,13 @@
+const knex = require('knex');
+const knexConfig = require('../knexfile');
+const connection = knex(knexConfig);
 
 exports.seed = function (knex, Promise) {
   // Deletes ALL existing entries
-  return knex('ideas_tags').del()
+  return connection('ideas_tags').del()
     .then(function () {
       // Inserts seed entries
-      return knex('ideas_tags').insert([
+      return connection('ideas_tags').insert([
         {
           idea_id: 22,
           tag_id: 1,
