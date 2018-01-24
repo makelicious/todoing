@@ -26,7 +26,6 @@ async function postIdea(payload) {
 
   return JSON.parse(response.payload);
 }
-afterAll(() => setTimeout(() => process.exit(), 1000))
 
 describe('Create idea', () => {
   beforeEach(async () => await resetDatabase());

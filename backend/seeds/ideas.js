@@ -1,6 +1,7 @@
 const knex = require('knex');
 const knexConfig = require('../knexfile');
 const connection = knex(knexConfig);
+
 exports.seed = function (knex, Promise) {
   // Deletes ALL existing entries
   return connection('ideas').del()
